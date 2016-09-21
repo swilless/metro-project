@@ -1,0 +1,35 @@
+{
+  "name": "coaching-tree",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:swilless/metro-project.git"
+  },
+  "author": "Sean Willess",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0-rc.4",
+    "basic-auth": "^1.0.4",
+    "body-parser": "^1.15.1",
+    "csv-parse": "^1.1.1",
+    "express": "^4.13.4",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^1.2.0",
+    "mongoose": "^4.4.16",
+    "mongoosey": "^1.0.0",
+    "morgan": "^1.7.0",
+    "multer": "^1.1.0",
+    "pug": "^2.0.0-beta3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "mocha-junit-reporter": "^1.11.1",
+    "supertest": "^1.2.0"
+  }
+}
