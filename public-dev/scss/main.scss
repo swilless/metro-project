@@ -1,11 +1,19 @@
+@import 'bootstrap/_bootstrap';
+@import '_defines';
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+ul {
+  list-style: none;
+}
 
 #map {
   height: 100%;
+  position: absolute;
+  bottom: -500px;
 }
 
 .clickable {

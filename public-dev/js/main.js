@@ -1,10 +1,15 @@
+// global variables
+var api_key = "37f4497e598a4986aa586bfb2126272b";
+var baseEndpoint = "https://api.wmata.com/Rail.svc/json/";
+
+
 $(window).on('load',function() {
-  showMap();
-  callMetroApi();
+  var main = new MainView();
 });
 
+// helper functions
 
-
+// init Google maps
 function initMap() {
   var map;
   var styledMapType = new google.maps.StyledMapType(
@@ -17,29 +22,44 @@ function initMap() {
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 }
-
-function showMap() {
-  $('#show-map').on('click',function(){
-    $('#map').slideToggle();
-  });
-}
-
-function callMetroApi() {
-  var params = {
-    "api_key": "37f4497e598a4986aa586bfb2126272b",
-    // Request parameters
-  };
-
-  $.ajax({
-    url: "https://api.wmata.com/Rail.svc/json/jLines?" + $.param(params),
-    type: "GET",
-    crossDomain: true,
-    dataType: 'jsonp'
-  })
-  .done(function(data) {
-    console.log('data',data);
-  })
-  .fail(function() {
-    console.log("error loading WMATA data");
-  });
-}
+//
+// function performRequest(fullUrl){
+//   if(fullUrl){
+//     $.ajax({
+//       url: fullUrl,
+//       type: "GET",
+//       crossDomain: true,
+//       dataType: 'jsonp'
+//     })
+//     .done(function(data) {
+//       console.log('getting data',data);
+//       return data;
+//     })
+//     .fail(function() {
+//       console.log("error loading WMATA data");
+//       return false;
+//     });
+//   }
+// }
+//
+// function apiGetLines() {
+//   var params = {
+//     "api_key": api_key,
+//     // Request parameters
+//   };
+//   var fullURL = baseEndpoint + $.param(params);
+//   return performRequest(fullURL);
+// }
+//
+// function apiGetStationsList(lineCode) {
+//   if(!lineCode) {
+//     lineCode = '';
+//   }
+//   var params = {
+//     "api_key": api_key,
+//     "LineCode": lineCode,
+//   };
+//
+//   var fullURL = baseEndpoint + $.param(params);
+//   return performRequest(fullURL);
+// }

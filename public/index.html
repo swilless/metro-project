@@ -2,13 +2,59 @@
 <html>
   <head>
     <link type="text/css" rel="stylesheet" href="build/main.css">
-    <title>Metro Map</title>
+    <title>MapMi</title>
   </head>
   <body>
     <h1>MapMi</h1>
-    <a class="clickable button" id="show-map">Toggle Map</a>
+
+    <div class="main-content">
+      <section class="search">
+        <input type="text" name="search" class="search-field" placeholder="Search">
+      </section>
+      <section class="main-body">
+      </section>
+      <section class="main-footer">
+        <ul class="footer-nav-list">
+          <li class="footer-item"><a class="clickable button" id="show-alerts">Alerts</a></li>
+          <li class="footer-item"><a class="clickable button" id="show-favorites">Favorites</a></li>
+          <li class="footer-item"><a class="clickable button" id="show-map">Toggle Map</a></li>
+        </ul>
+      </section>
+    </div>
+
+
     <div id="map"></div>
 
+
+    <script type="text/template" id="line-view">
+      <ul class="lines-list">
+        <% lines.forEach(function(line,i) { %>
+          <li class="list-item">
+            <a class="line-item" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
+          </li>
+        <% }); %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="line-station-view">
+      <ul class="station-list">
+        <% stations.forEach(function(station,i) { %>
+          <li class="list-item">
+            <a class="station-item" data-tab-number="<%= i %>" data-station-code="<%= station.Code %>"><%= station.Name %></a>
+          </li>
+        <% }); %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="favorites-view">
+      <ul class="favorites-list">
+        <% favorites.forEach(function(fav,i) { %>
+          <li class="favorites-item">
+            <!-- <a class="favorites-item" href="#" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a> -->
+          </li>
+        <% }); %>
+      </ul>
+    </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
