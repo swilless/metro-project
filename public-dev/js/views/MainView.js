@@ -8,6 +8,6 @@ var MainView = Backbone.View.extend({
   render: function(){
     var _this = this;
     this.mapView = new MapView();
-    this.lineStationView = new LineStationView();
+    this.linesView = new LinesView();
   }
 });

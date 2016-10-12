@@ -5,7 +5,7 @@
     <title>MapMi</title>
   </head>
   <body>
-    <h1>MapMi</h1>
+    <a href="/"><h1>MapMi</h1></a>
 
     <div class="main-content">
       <section class="search">
@@ -21,26 +21,25 @@
         </ul>
       </section>
     </div>
-
-
+    <div id="overlay"></div>
     <div id="map"></div>
 
-
-    <script type="text/template" id="line-view">
+    <script type="text/template" id="lines-view">
       <ul class="lines-list">
         <% lines.forEach(function(line,i) { %>
           <li class="list-item">
-            <a class="line-item" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
+            <a class="clickable line-item" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
           </li>
         <% }); %>
       </ul>
     </script>
 
-    <script type="text/template" id="line-station-view">
+    <script type="text/template" id="stations-view">
       <ul class="station-list">
         <% stations.forEach(function(station,i) { %>
           <li class="list-item">
-            <a class="station-item" data-tab-number="<%= i %>" data-station-code="<%= station.Code %>"><%= station.Name %></a>
+            <a class="clickable station-item" data-tab-number="<%= i %>" data-station-code="<%= station.Code %>"><%= station.Name %></a>
+            <!-- anchors go to: href='/station/<%= station.Code %>' -->
           </li>
         <% }); %>
       </ul>
@@ -54,6 +53,32 @@
           </li>
         <% }); %>
       </ul>
+    </script>
+
+    <script type="text/template" id="trains-status-view">
+      <ul class="trains-list">
+        <% trains.forEach(function(train,i) { %>
+          <li class="train-item">
+            <span class="train-car"><%= train.Car %></span> <span class="train-destination"><%= train.DestinationName %></span> <span class="train-minutes"><%= train.Min %></span>
+          </li>
+        <% }); %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="alerts-view">
+      <ul class="alerts-list">
+        <% incidents.forEach(function(incident,i) { %>
+          <li class="alert-item">
+            <span class="alert-line <%= incident.IncidentType %>"><%= incident.LinesAffected %></span>
+            <p class="alert-description"><%= incident.Description %></p>
+            <span class="alert-datetime"><%= incident.DateUpdated %></span>
+          </li>
+        <% }); %>
+      </ul>
+    </script>
+
+    <script type="text/template" id="template-overlayview">
+      <div class="overlay-subview"></div>
     </script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

@@ -1,10 +1,36 @@
 // global variables
 var api_key = "37f4497e598a4986aa586bfb2126272b";
 var baseEndpoint = "https://api.wmata.com/Rail.svc/json/";
+var nextTrainEndpoint = "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/";
+var incidentsEndpoint = "https://api.wmata.com/Incidents.svc/json/Incidents?";
 
 
 $(window).on('load',function() {
   var main = new MainView();
+
+  // set routes
+  var AppRouter = Backbone.Router.extend({
+    routes: {
+      'metro/:id': 'story',
+      '*actions': 'defaultRoute'
+    }
+  });
+  var router = new AppRouter();
+  // var overlay = new OverlayView();
+  // $('#overlay').html(overlay.$el);
+  // router.on('route:story', function(id) {
+  //   var story = data.get('stories').get(id);
+  //   if (story) {
+  //     overlay.showOverlayView(new StoryView({
+  //       'model': story
+  //     }));
+  //   }
+  // });
+
+  // set up bottom nav clicks
+  $('#show-alerts').on('click',function(){
+    var alertsStatus = new AlertsView();
+  });
 });
 
 // helper functions

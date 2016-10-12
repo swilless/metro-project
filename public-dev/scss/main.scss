@@ -9,6 +9,14 @@ html, body {
 ul {
   list-style: none;
 }
+a {
+  text-decoration: none;
+  color: $dark_med_gray;
+  &:hover {
+    color: $dark_med_gray;
+    text-decoration: none;
+  }
+}
 
 #map {
   height: 100%;
@@ -22,4 +30,27 @@ ul {
 
 .button {
 
+}
+
+
+.overlay-view {
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 1em;
+  overflow:hidden;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(0,0,0,0.5);
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+    color: $white;
+  }
+  .overlay-subview {
+  }
 }

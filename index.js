@@ -33,11 +33,11 @@ var adminAuth = function(req, res, next) {
 
 app.use(bodyParser.json({}));
 app.use(express.static(__dirname + '/public'));
-// 
+//
 // app.post('/api/email',routes.email.saveEmail);
 // app.put('/api/email',routes.email.saveEmail);
 //
-// app.get('/api/job',routes.job.getJobData);
+// app.get('/station/:code',routes.metro.getStationStatus);
 // app.get('/admin',adminAuth,routes.admin.printForm);
 // app.post('/admin/submit',adminAuth,multer({ dest: 'uploads/'}).single('uploadFile'),routes.admin.submitForm);
 
