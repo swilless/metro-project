@@ -5,21 +5,35 @@
     <title>MapMi</title>
   </head>
   <body>
-    <a href="/"><h1>MapMi</h1></a>
+    <div class="outer-wrapper">
+      <div class="main-content">
+        <section class="main-header">
+            <a href="#" title="Toggle main navigation" class="header-item main-nav-button"></a>
+            <ul class="main-navigation load-hidden" id='main-nav'>
+              <a class="clickable main-nav-item"><li class='list-item'>Line Status</li></a>
+              <a class="clickable main-nav-item"><li class='list-item'>Route Planner</li></a>
+              <a class="clickable main-nav-item"><li class='list-item'>Twitter</li></a>
+              <a class="clickable main-nav-item"><li class='list-item'>Stats</li></a>
+              <a class="clickable main-nav-item"><li class='list-item'>Settings</li></a>
+            </ul>
+            <a class="metro-logo header-item" href="/"></a>
+            <a class="home-logo header-item" href="/"></a>
+          </ul>
+        </section>
 
-    <div class="main-content">
-      <section class="search">
-        <input type="text" name="search" class="search-field" placeholder="Search">
-      </section>
-      <section class="main-body">
-      </section>
-      <section class="main-footer">
-        <ul class="footer-nav-list">
-          <li class="footer-item"><a class="clickable button" id="show-alerts">Alerts</a></li>
-          <li class="footer-item"><a class="clickable button" id="show-favorites">Favorites</a></li>
-          <li class="footer-item"><a class="clickable button" id="show-map">Toggle Map</a></li>
-        </ul>
-      </section>
+        <section class="search">
+          <input type="text" name="search" class="search-field" placeholder="Search">
+        </section>
+        <section class="main-body">
+        </section>
+        <section class="main-footer">
+          <ul class="footer-nav-list">
+            <li class="footer-item"><a title="Show Alerts" class="clickable button alerts" id="show-alerts"></a></li>
+            <li class="footer-item"><a title="Show Favorites" class="clickable button favorites" id="show-favorites"></a></li>
+            <li class="footer-item"><a title="Show Map" class="clickable button map" id="show-map"></a></li>
+          </ul>
+        </section>
+      </div>
     </div>
     <div id="overlay"></div>
     <div id="map"></div>
@@ -35,14 +49,17 @@
     </script>
 
     <script type="text/template" id="stations-view">
-      <ul class="station-list">
-        <% stations.forEach(function(station,i) { %>
-          <li class="list-item">
-            <a class="clickable station-item" data-tab-number="<%= i %>" data-station-code="<%= station.Code %>"><%= station.Name %></a>
-            <!-- anchors go to: href='/station/<%= station.Code %>' -->
-          </li>
-        <% }); %>
-      </ul>
+      <div class="stations-section">
+        <p>Select a station:</p>
+        <ul class="station-list">
+          <% stations.forEach(function(station,i) { %>
+            <li class="list-item">
+              <a class="clickable station-item" data-tab-number="<%= i %>" data-station-code="<%= station.Code %>"><%= station.Name %></a>
+              <!-- anchors go to: href='/station/<%= station.Code %>' -->
+            </li>
+          <% }); %>
+        </ul>
+      </div>
     </script>
 
     <script type="text/template" id="favorites-view">
