@@ -13,7 +13,6 @@ var TrainsView = Backbone.View.extend({
     $('.station-item').on('click',function(e){
       e.preventDefault();
       var stationCode = $(this).attr('data-station-code');
-      var trainsStatus = new TrainsView();
       _this.apiGetTrainsStatus(stationCode.trim());
       //trigger overlayview
     });

@@ -5,9 +5,9 @@ var LinesView = Backbone.View.extend({
   //'stationsTemplate': _.template($('#line-station-view').html()),
   initialize: function() {
     this.render();
-    console.log('inited lines');
   },
   render: function(){
+    var alerts = this.apiGetAlerts();
     var lines = this.apiGetLines();
   },
   apiGetLines: function(){
@@ -40,6 +40,9 @@ var LinesView = Backbone.View.extend({
       stationsView.apiGetStations(lineCode);
     });
   },
+  apiGetAlerts: function() {
+    return true;
+  }
 
 
 });

@@ -20,6 +20,7 @@
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-sass": "^1.2.0",
+    "node-cache": "4.1.0",
     "mongoose": "^4.4.16",
     "mongoosey": "^1.0.0",
     "morgan": "^1.7.0",

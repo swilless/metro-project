@@ -3,10 +3,11 @@ var AlertsView = Backbone.View.extend({
   'template': _.template($('#alerts-view').html()),
   initialize: function() {
     this.stationCode = null;
+    this.incidents = null;
     this.render();
   },
   render: function(){
-    this.apiGetAlerts();
+    var alerts = this.apiGetAlerts();
   },
   apiGetAlerts: function(){
     var params = {
@@ -21,14 +22,16 @@ var AlertsView = Backbone.View.extend({
       dataType: 'jsonp'
     })
     .done(function(data) {
-      console.log('alerts data',data);
-      var output = _this.$el.html(_this.template({ 'incidents': data.Incidents }));
-      $('.main-body').html(output); // may want to handle this differently?
+      _this.incidents = data.Incidents;
       return data;
     })
     .fail(function() {
       console.log("error loading WMATA data");
       return false;
     });
+  },
+  displayAlerts: function(){
+    var output = this.$el.html(this.template({ 'incidents': this.incidents }));
+    $('.main-body').html(output); // may want to handle this differently?
   }
 });

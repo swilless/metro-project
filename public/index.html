@@ -3,6 +3,7 @@
   <head>
     <link type="text/css" rel="stylesheet" href="build/main.css">
     <title>MapMi</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=yes" />
   </head>
   <body>
     <div class="outer-wrapper">
@@ -39,13 +40,17 @@
     <div id="map"></div>
 
     <script type="text/template" id="lines-view">
-      <ul class="lines-list">
-        <% lines.forEach(function(line,i) { %>
-          <li class="list-item">
-            <a class="clickable line-item" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
-          </li>
-        <% }); %>
-      </ul>
+      <div class="lines-view">
+        <ul class="lines-list">
+          <% lines.forEach(function(line,i) {
+            var lineClass = line.DisplayName.toLowerCase();
+            %>
+            <li class="list-item">
+              <a class="clickable line-item metro-<%= lineClass %> " data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
     </script>
 
     <script type="text/template" id="stations-view">
@@ -63,20 +68,42 @@
     </script>
 
     <script type="text/template" id="favorites-view">
-      <ul class="favorites-list">
-        <% favorites.forEach(function(fav,i) { %>
-          <li class="favorites-item">
-            <!-- <a class="favorites-item" href="#" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a> -->
-          </li>
-        <% }); %>
-      </ul>
+      <div class="favorites-item">
+        <%
+        var lineString = '';
+        allLines.forEach(function(line,i) {
+          lineString += line.displayName.toLowerCase() + '_';
+        });
+        lineString = lineString.substring(0, lineString.length - 1);
+        %>
+        <div class="fav-name"><a class="clickable fav-item get-routes" data-frequency="<%= frequency %>" data-alarm="<%= alarmTime %>" data-starting="<%= startingStation %>" data-ending="<%= destinationStation %>" data-line-colors="<%= lineString %>" data-transfer="<%= transferStation %>"><%= name %></a></div>
+        <div class="fav-details">
+          <!-- <span class="fav-starting col-xs-3">Starting: <%= startingStation %></span>
+          <span class="fav-destination col-xs-3">Destination: <%= destinationStation %></span> -->
+          <% if(alarmTime) { %>
+            <span class="fav-alarm col-xs-3">Alarm: <%= alarmTime %></span>
+          <% } %>
+          <% if(frequency) { %>
+            <span class="fav-frequency col-xs-3">Frequency: <%= frequency %></span>
+          <% } %>
+        </div>
+        <div class="lineColors">
+          Metro lines:
+          <% allLines.forEach(function(line,i) {
+            var lineDisplay = line.displayName.toLowerCase();
+            %>
+            <span class="line-color metro-<%= lineDisplay %>"></span>
+          <% }); %>
+        </div>
+      </div>
     </script>
 
     <script type="text/template" id="trains-status-view">
       <ul class="trains-list">
+          <li><span class="train-car column-heading col-xs-4">Number of cars</span><span class="train-destination column-heading col-xs-4">Destination</span><span class="train-minutes column-heading col-xs-4">Minutes</span></li>
         <% trains.forEach(function(train,i) { %>
           <li class="train-item">
-            <span class="train-car"><%= train.Car %></span> <span class="train-destination"><%= train.DestinationName %></span> <span class="train-minutes"><%= train.Min %></span>
+            <span class="train-car col-xs-4"><%= train.Car %></span> <span class="train-destination col-xs-4"><%= train.DestinationName %></span> <span class="train-minutes col-xs-4"><%= train.Min %></span>
           </li>
         <% }); %>
       </ul>
@@ -84,15 +111,38 @@
 
     <script type="text/template" id="alerts-view">
       <ul class="alerts-list">
-        <% incidents.forEach(function(incident,i) { %>
+        <% if(incidents){
+          incidents.forEach(function(incident,i) { %>
           <li class="alert-item">
             <span class="alert-line <%= incident.IncidentType %>"><%= incident.LinesAffected %></span>
             <p class="alert-description"><%= incident.Description %></p>
             <span class="alert-datetime"><%= incident.DateUpdated %></span>
           </li>
-        <% }); %>
+        <% });
+        } %>
       </ul>
     </script>
+
+    <script type="text/template" id="template-routesview">
+      <div class="routes-view">
+        <div class="startingStation">
+          <span class="line-code-<%= startingStation.lineCode %>">Starting Station: <%= startingStation.name %> </span>
+        </div>
+        <div class="destinationStation">
+          <span class="line-code-<%= endingStation.lineCode %>">Destination Station: <%= endingStation.name %> </span>
+        </div>
+        <div class="routesDetails">
+          <span class="alarm">Alarm time: <%= alarm %></span>
+          <span class="frequency">Repeat: <%= frequency %></span>
+        </div>
+        <div class="time-table">
+          <span class='current-time'><%= currentTime %></span>
+          <span class='next-increment-time'><%= nextIncrement %></span>
+          <span class='last-increment-time'><%= lastIncrement %></span>
+        </div>
+      </div>
+    </script>
+
 
     <script type="text/template" id="template-overlayview">
       <div class="overlay-subview"></div>
@@ -101,6 +151,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+    <script type="text/javascript" src="build/async.min.js"></script>
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script> -->
     <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmm323W-aHs6dMrjx3ySWDch7_66fvXS4&callback=initMap"

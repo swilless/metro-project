@@ -1,0 +1,25 @@
+<svg id="Grid_BG" data-name="Grid BG" xmlns="http://www.w3.org/2000/svg" width="750" height="798" viewBox="0 0 750 798">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #c2c2c2;
+        stroke-width: 1px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Rule_bg" data-name="Rule bg" class="cls-1" d="M4224,2266V1470" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_bg_copy" data-name="Rule bg copy" class="cls-1" d="M4478,2265V1469" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_bg_copy_3" data-name="Rule bg copy 3" class="cls-1" d="M4601,2265V1469" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_bg_copy_2" data-name="Rule bg copy 2" class="cls-1" d="M4101,2266V1470" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_bg_copy_2-2" data-name="Rule bg copy 2" class="cls-1" d="M4351,2265V1469" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG-2" data-name="Rule BG" class="cls-1" d="M3974,1651h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_3-2" data-name="Rule BG copy 3" class="cls-1" d="M3974,1557h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_4" data-name="Rule BG copy 4" class="cls-1" d="M3974,1735h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy-2" data-name="Rule BG copy" class="cls-1" d="M3974,1824h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_5" data-name="Rule BG copy 5" class="cls-1" d="M3974,1915h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_2-3" data-name="Rule BG copy 2" class="cls-1" d="M3974,2002h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_6" data-name="Rule BG copy 6" class="cls-1" d="M3974,2091h769" transform="translate(-3978 -1468.5)"/>
+  <path id="Rule_BG_copy_2-4" data-name="Rule BG copy 2" class="cls-1" d="M3974,2179h769" transform="translate(-3978 -1468.5)"/>
+</svg>

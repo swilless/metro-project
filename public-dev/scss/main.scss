@@ -11,6 +11,9 @@ html, body {
 ul {
   list-style: none;
   padding: 0;
+  li {
+    list-style: none;
+  }
 }
 a {
   text-decoration: none;
@@ -21,7 +24,21 @@ a {
   }
 }
 
-// object styles
+@-webkit-keyframes slide {
+  100% {
+    width: 100%;
+    color: $dark_gray;
+  }
+}
+
+@keyframes slide {
+  100% {
+    width: 100%;
+    color: $dark_gray;
+  }
+}
+
+// object/defined styles
 #map {
   height: 100%;
   position: absolute;
@@ -35,34 +52,66 @@ a {
 }
 .load-hidden {
   display: none;
+  &.active {
+    display: block;
+  }
 }
 
-.overlay-view {
-  opacity: 0;
-  transition: opacity 0.5s;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding-top: 1em;
-  overflow:hidden;
-  z-index: 1000;
-  pointer-events: none;
-  background: rgba(0,0,0,0.7);
-  margin: 0 auto;
-  padding: 25px;
-  &.active {
-    opacity: 1;
-    pointer-events: all;
-    color: $white;
-    a {
-      color: $white;
-    }
+// metro colors
+.metro-blue {
+  color: $metro_blue;
+  background-color: $metro_blue;
+  &:hover {
+    color: $metro_blue;
   }
-  .overlay-subview {
-    max-width: 300px;
-    margin: 0 auto;
+}
+.metro-green {
+  color: $metro_green;
+  background-color: $metro_green;
+  &:hover {
+    color: $metro_green;
+  }
+}
+.metro-orange {
+  color: $metro_orange;
+  background-color: $metro_orange;
+  &:hover {
+    color: $metro_orange;
+  }
+}
+.metro-red {
+  color: $metro_red;
+  background-color: $metro_red;
+  &:hover {
+    color: $metro_red;
+  }
+}
+.metro-silver {
+  color: $metro_silver;
+  background-color: $metro_silver;
+  &:hover {
+    color: $metro_silver;
+  }
+}
+.metro-yellow {
+  color: $metro_yellow;
+  background-color: $metro_yellow;
+  &:hover {
+    color: $metro_yellow;
+  }
+}
+
+.main-navigation {
+  position: absolute;
+  background: black;
+  top: 45px;
+  padding: 15px;
+  max-width: 200px;
+  li.list-item {
+    margin: 0;
+    color: $white;
+    border-bottom: 1px solid $white;
+    padding: 20px 0 5px 0;
   }
 }
 
@@ -71,6 +120,7 @@ a {
   margin: 0 auto;
   background: $white;
 }
+
 // section-specific styles
 section.main-header {
   background-color: $black;
@@ -84,17 +134,17 @@ section.main-header {
     margin-top: 5px;
     &.main-nav-button {
       float: left;
-      background-image: url("/img/hamburger.svg");
+      background-image: url("/img/hamburger.png");
       background-size: 25px;
       background-position: 5px 5px;
     }
     &.metro-logo {
       float: left;
-      background-image: url("/img/metro-logo.svg");
+      background-image: url("/img/metro-logo.png");
       background-position: 50%;
     }
     &.home-logo {
-      background-image: url("/img/home.svg");
+      background-image: url("/img/home.png");
       background-position: 98%;
       background-size: 27px;
     }
@@ -129,14 +179,120 @@ section.main-footer {
       background-position: center;
       margin-top: 5px;
       &.alerts {
-        background-image: url("/img/alert.svg");
+        background-image: url("/img/alert.png");
       }
       &.favorites {
-        background-image: url("/img/favorite.svg");
+        background-image: url("/img/favorite.png");
       }
       &.map {
-        background-image: url("/img/map.svg");
+        background-image: url("/img/map.png");
       }
     }
   }
+}
+
+// view-specific styles
+.lines-view {
+  ul.lines-list {
+    li a {
+      width: 125px;
+      height: 40px;
+      display: block;
+      vertical-align: middle;
+      padding: 7px 0;
+      padding-left: 20px;
+      margin: 25px 0;
+      animation: slide 2s forwards;
+      animation-delay: 1s;
+      font-size: 18px;
+      text-transform: uppercase;
+      font-style: italic;
+      font-weight: 600;
+      :hover {
+        color: inherit;
+      }
+      &.metro-green {
+        animation-delay: 1.2s;
+      }
+      &.metro-orange {
+        animation-delay: 1.4s;
+      }
+      &.metro-red {
+        animation-delay: 1.6s;
+      }
+      &.metro-silver {
+        animation-delay: 1.8s;
+      }
+      &.metro-yellow {
+        animation-delay: 2s;
+      }
+    }
+  }
+}
+
+.favorites-view {
+  .favorites-item {
+    width: 100%;
+    margin: 10px auto;
+    border-bottom: 1px solid $light_gray;
+    .fav-name {
+      font-size: 18px;
+      font-style: italic;
+    }
+    .lineColors {
+      clear: both;
+      .line-color{
+        width: 40px;
+        height: 15px;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.routes-view {
+  .time-table {
+    min-height: 300px;
+    width: 100%;
+    background: url('/img/grid.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+.overlay-view {
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 1em;
+  overflow:hidden;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(0,0,0,0.7);
+  margin: 0 auto;
+  padding: 25px;
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+    color: $white;
+    width: 95%;
+    height: 95%;
+    a {
+      color: $white;
+    }
+  }
+  .overlay-subview {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+#overlay {
+  // width: 100%;
+  // height: 100%;
+  // top: 0;
+  // position: absolute;
 }

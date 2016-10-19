@@ -3,7 +3,9 @@ var api_key = "37f4497e598a4986aa586bfb2126272b";
 var baseEndpoint = "https://api.wmata.com/Rail.svc/json/";
 var nextTrainEndpoint = "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/";
 var incidentsEndpoint = "https://api.wmata.com/Incidents.svc/json/Incidents?";
+var pathEndpoint = "https://api.wmata.com/Rail.svc/json/jPath?";
 
+initData();
 
 $(window).on('load',function() {
   var main = new MainView();
@@ -27,13 +29,38 @@ $(window).on('load',function() {
   //   }
   // });
 
-  // set up bottom nav clicks
+
+  // set up clicks
+  $('.main-nav-button').on('click',function(){
+    $('.load-hidden').toggleClass('active');
+  });
+
   $('#show-alerts').on('click',function(){
     var alertsStatus = new AlertsView();
+    alertsStatus.displayAlerts();
+  });
+  $('#show-favorites').on('click',function(){
+    var favoriteCollection = new FavoritesCollection();
+    favoriteCollection.fetch({
+      reset: true,
+      success: function(collection, response, options){
+        var favoritesView = new FavoritesView({
+          'collection': collection
+        });
+        // $('.main-body').append(favoritesView);
+      },
+      error: function (collection, response, options) {
+        console.log('failed with response',response);
+      }
+    });
   });
 });
 
 // helper functions
+function initData(){
+
+}
+
 
 // init Google maps
 function initMap() {
