@@ -26,7 +26,7 @@ var FavoritesView = Backbone.View.extend({
   },
   returnFormattedDate: function(date) {
     var newDate = new Date(date);
-    return newDate.toLocaleTimeString();
+    return newDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
   },
   initClicks: function(){
     var _this = this;

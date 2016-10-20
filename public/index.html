@@ -72,7 +72,7 @@
         <%
         var lineString = '';
         allLines.forEach(function(line,i) {
-          lineString += line.displayName.toLowerCase() + '_';
+          lineString += line.lineCode + '_';
         });
         lineString = lineString.substring(0, lineString.length - 1);
         %>
@@ -88,11 +88,13 @@
           <% } %>
         </div>
         <div class="lineColors">
-          Metro lines:
-          <% allLines.forEach(function(line,i) {
+          <%
+          var linesCount = allLines.length;
+          allLines.forEach(function(line,i) {
             var lineDisplay = line.displayName.toLowerCase();
+            var colorWidth = 100/linesCount;
             %>
-            <span class="line-color metro-<%= lineDisplay %>"></span>
+            <div style="width: <%= colorWidth %>%;" class="line-color metro-<%= lineDisplay %>"></div>
           <% }); %>
         </div>
       </div>
@@ -101,7 +103,10 @@
     <script type="text/template" id="trains-status-view">
       <ul class="trains-list">
           <li><span class="train-car column-heading col-xs-4">Number of cars</span><span class="train-destination column-heading col-xs-4">Destination</span><span class="train-minutes column-heading col-xs-4">Minutes</span></li>
-        <% trains.forEach(function(train,i) { %>
+        <% trains.forEach(function(train,i) {
+          if(!train.Car){
+            train.Car = '-';
+          } %>
           <li class="train-item">
             <span class="train-car col-xs-4"><%= train.Car %></span> <span class="train-destination col-xs-4"><%= train.DestinationName %></span> <span class="train-minutes col-xs-4"><%= train.Min %></span>
           </li>
@@ -136,10 +141,47 @@
           <span class="frequency">Repeat: <%= frequency %></span>
         </div>
         <div class="time-table">
-          <span class='current-time'><%= currentTime %></span>
-          <span class='next-increment-time'><%= nextIncrement %></span>
-          <span class='last-increment-time'><%= lastIncrement %></span>
+          <div class='time-header'>
+            <span class='current-time'><%= currentTime %></span>
+            <span class='second-increment-time'><%= secondIncrement %></span>
+            <span class='third-increment-time'><%= thirdIncrement %></span>
+          </div>
+          <div class='next-trains-list'>
+            <%
+            if(trains && railTime){
+              var trainItemLength = (railTime / 25) * 100;
+              if(trainItemLength > 100){
+                trainItemLength = 100;
+              }
+              trains.forEach(function(train,i) {
+                if(train.Min){
+                  var trainOffsetTime = train.Min * 4; %>
+                  <div class="train-item outer-wrap" style="width: <%= trainItemLength %>%; margin-left: <%= trainOffsetTime %>%;">
+                    <div class="line-label train-icon first"></div>
+                    <%
+                    var linesCount = lineColors.length;
+                    lineColors.forEach(function(color,i) {
+                      var colorWidth = 100/linesCount;
+                      if(i == 0 && train.Line != '--'){ %>
+                        <div style="width: <%= colorWidth %>%;" class="inner-train line-color line-<%= i+1 %>" data-line-color="<%= train.Line %>"></div>
+                      <% } else { %>
+                        <div style="width: <%= colorWidth %>%;" class="inner-train line-color line-<%= i+1 %>" data-line-color="<%= color %>"></div>
+                      <% } %>
+                    <% if(linesCount > 1 && transferStation){ %>
+                        <div class="transfer-station line-label"><%= transferStation %></div>
+                    <% }
+                    }); %>
+                    <div class="line-label train-icon first"></div>
+                    <span class="arrival-time"><%= train.arrivalTime %></span>
+                    <span class="train-time"><%= railTime %> min</span>
+                  </div>
+                <%
+                }
+              });
+            } %>
+          </div>
         </div>
+
       </div>
     </script>
 

@@ -27,13 +27,13 @@ var values = [
           'displayName': 'Orange',
         },
         {
-        'lineCode': 'RD',
-        'displayName': 'Red',
+          'lineCode': 'GR',
+          'displayName': 'Green',
         }
       ],
       'startingStation': 'C03',
-      'destinationStation': 'A15',
-      'transferStation': 'A01',
+      'destinationStation': 'E03',
+      'transferStation': "L'Enfant Plaza",
       'alarmTime': new Date("2016-05-18T08:20:00Z"),
       'frequency': 'weekly',
   },

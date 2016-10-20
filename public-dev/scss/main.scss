@@ -126,6 +126,7 @@ section.main-header {
   background-color: $black;
   color: $white;
   min-height: 45px;
+  z-index: 100;
   a.header-item {
     height: 30px;
     width: 30%;
@@ -154,6 +155,14 @@ section.main-header {
   }
 }
 
+section.search {
+  input.search-field {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
 section.main-body {
   margin: 10px;
 }
@@ -166,6 +175,7 @@ section.main-footer {
   bottom: 0;
   width: 100%;
   max-width: 800px;
+  z-index: 100;
   li.footer-item {
     height: 40px;
     width: 32%;
@@ -199,12 +209,12 @@ section.main-footer {
       height: 40px;
       display: block;
       vertical-align: middle;
-      padding: 7px 0;
+      padding: 10px 0;
       padding-left: 20px;
       margin: 25px 0;
       animation: slide 2s forwards;
       animation-delay: 1s;
-      font-size: 18px;
+      font-size: 16px;
       text-transform: uppercase;
       font-style: italic;
       font-weight: 600;
@@ -241,22 +251,111 @@ section.main-footer {
     }
     .lineColors {
       clear: both;
-      .line-color{
-        width: 40px;
-        height: 15px;
+      .line-color {
+        height: 35px;
         display: inline-block;
+        float: left;
       }
     }
   }
 }
 
 .routes-view {
+  width: 100%;
+  overflow-x: scroll;
   .time-table {
-    min-height: 300px;
-    width: 100%;
+    min-height: 330px;
+    width: 130%;
     background: url('/img/grid.svg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat-x;
+    background-position-y: 20px;
+    overflow-x: hidden;
+    .time-header {
+      margin-left: 14%;
+      position: relative;
+      height: 22px;
+      .current-time {
+        position: absolute;
+        left: 0%;
+      }
+      .second-increment-time {
+        position: absolute;
+        left: 39%;
+      }
+      // .third-increment-time {
+      //   position: absolute;
+      //   left: 49%;
+      // }
+      .third-increment-time {
+        position: absolute;
+        right: 17%;
+      }
+    }
+    .next-trains-list {
+      margin-left: 17%;
+      .train-item {
+        height: 30px;
+        background: $black;
+        margin: 30px 0;
+        position: relative;
+        z-index: 1;
+        .inner-train {
+          height: 30px;
+          display: inline-block;
+          float: left;
+          &[data-line-color="OR"] {
+            background-color: $metro_orange;
+          }
+          &[data-line-color="BL"] {
+            background-color: $metro_blue;
+          }
+          &[data-line-color="SV"] {
+            background-color: $metro_silver;
+          }
+          &[data-line-color="GR"] {
+            background-color: $metro_green;
+          }
+          &[data-line-color="RD"] {
+            background-color: $metro_red;
+          }
+          &[data-line-color="YL"] {
+            background-color: $metro_yellow;
+          }
+        }
+        .line-label {
+          display: inline-block;
+          min-width: 12%;
+          height: 30px;
+          position: absolute;
+          z-index: 2;
+          background: $black;
+          color: $white;
+          text-align: center;
+          font-size: 11px;
+          padding: 7px 10px;
+          &.train-icon {
+            background-image: url("/img/train.svg");
+            background-repeat: no-repeat;
+            background-size: 22px;
+            background-position: center;
+          }
+          &.transfer-station {
+            left: 42%;
+          }
+        }
+        span {
+          display: inline-block;
+          font-size: 12px;
+          &.arrival-time {
+            float: left;
+          }
+          &.train-time {
+            float: right;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -281,6 +380,7 @@ section.main-footer {
     color: $white;
     width: 95%;
     height: 95%;
+    overflow-y: scroll;
     a {
       color: $white;
     }
