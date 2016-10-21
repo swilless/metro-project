@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 34px;
+        filter: url(#filter);
+        fill: #030000;
+        text-anchor: middle;
+        font-family: FontAwesome;
+      }
+    </style>
+    <filter id="filter" x="0" y="0" width="30" height="30" filterUnits="userSpaceOnUse">
+      <feFlood result="flood" flood-color="#fff"/>
+      <feComposite result="composite" operator="in" in2="SourceGraphic"/>
+      <feBlend result="blend" in2="SourceGraphic"/>
+    </filter>
+  </defs>
+  <text id="Gear_Icon_copy" data-name="Gear Icon copy" class="cls-1" x="-32.702" y="-3.103"><tspan x="-32.702"></tspan></text>
+</svg>

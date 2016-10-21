@@ -37,7 +37,6 @@ $(window).on('load',function() {
 
   $('#show-alerts').on('click',function(){
     var alertsStatus = new AlertsView();
-    alertsStatus.displayAlerts();
   });
   $('#show-favorites').on('click',function(){
     var favoriteCollection = new FavoritesCollection();

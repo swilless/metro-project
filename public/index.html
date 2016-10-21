@@ -40,13 +40,18 @@
     <div id="map"></div>
 
     <script type="text/template" id="lines-view">
+      <h2>MapMi</h2>
       <div class="lines-view">
         <ul class="lines-list">
           <% lines.forEach(function(line,i) {
+            var alertClass = '';
             var lineClass = line.DisplayName.toLowerCase();
+            if(lineClass == 'orange'){
+              alertClass = 'alert-icon';
+            }
             %>
             <li class="list-item">
-              <a class="clickable line-item metro-<%= lineClass %> " data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
+              <a class="clickable line-item metro-<%= lineClass %> <%= alertClass %>" data-tab-number="<%= i %>" data-line-code="<%= line.LineCode %>" data-line-start="<%= line.StartStationCode %>" data-line-end="<%= line.EndStationCode %>"><%= line.DisplayName %></a>
             </li>
           <% }); %>
         </ul>
@@ -76,22 +81,30 @@
         });
         lineString = lineString.substring(0, lineString.length - 1);
         %>
-        <div class="fav-name"><a class="clickable fav-item get-routes" data-frequency="<%= frequency %>" data-alarm="<%= alarmTime %>" data-starting="<%= startingStation %>" data-ending="<%= destinationStation %>" data-line-colors="<%= lineString %>" data-transfer="<%= transferStation %>"><%= name %></a></div>
-        <div class="fav-details">
-          <!-- <span class="fav-starting col-xs-3">Starting: <%= startingStation %></span>
-          <span class="fav-destination col-xs-3">Destination: <%= destinationStation %></span> -->
-          <% if(alarmTime) { %>
-            <span class="fav-alarm col-xs-3">Alarm: <%= alarmTime %></span>
-          <% } %>
-          <% if(frequency) { %>
-            <span class="fav-frequency col-xs-3">Frequency: <%= frequency %></span>
-          <% } %>
+
+        <div class="details-wrapper">
+          <div class="fav-name"><a class="clickable fav-item get-routes" data-frequency="<%= frequency %>" data-alarm="<%= alarmTime %>" data-starting="<%= startingStation %>" data-ending="<%= destinationStation %>" data-line-colors="<%= lineString %>" data-transfer="<%= transferStation %>"><%= name %></a></div>
+          <div class="fav-details">
+            <div class="fav-starting"><span class="span-text">Starting station:</span> <%= startingStationName %></div>
+            <% if(alarmTime) { %>
+              <div class="fav-alarm"><b>Alarm:</b> <%= alarmTime %></div>
+            <% } %>
+            <% if(frequency) { %>
+              <div class="fav-frequency"><b>Frequency:</b> <%= frequency %></div>
+            <% } %>
+          </div>
+          <div class="fav-metro-train">
+            <div class="train-icon"></div>
+            <div class="fav-destination"><div class='right-black-arrow'></div><%= destinationStationName %></div>
+          </div>
         </div>
         <div class="lineColors">
+          <a class="clickable line-color-gear get-routes" data-frequency="<%= frequency %>" data-alarm="<%= alarmTime %>" data-starting="<%= startingStation %>" data-ending="<%= destinationStation %>" data-line-colors="<%= lineString %>" data-transfer="<%= transferStation %>"></a>
           <%
+          var lineDisplay = '';
           var linesCount = allLines.length;
           allLines.forEach(function(line,i) {
-            var lineDisplay = line.displayName.toLowerCase();
+            lineDisplay = line.displayName.toLowerCase();
             var colorWidth = 100/linesCount;
             %>
             <div style="width: <%= colorWidth %>%;" class="line-color metro-<%= lineDisplay %>"></div>
@@ -101,44 +114,70 @@
     </script>
 
     <script type="text/template" id="trains-status-view">
-      <ul class="trains-list">
-          <li><span class="train-car column-heading col-xs-4">Number of cars</span><span class="train-destination column-heading col-xs-4">Destination</span><span class="train-minutes column-heading col-xs-4">Minutes</span></li>
-        <% trains.forEach(function(train,i) {
-          if(!train.Car){
-            train.Car = '-';
-          } %>
-          <li class="train-item">
-            <span class="train-car col-xs-4"><%= train.Car %></span> <span class="train-destination col-xs-4"><%= train.DestinationName %></span> <span class="train-minutes col-xs-4"><%= train.Min %></span>
-          </li>
-        <% }); %>
-      </ul>
+      <div class="trains-status-view">
+        <ul class="trains-list">
+            <li><span class="train-car column-heading col-xs-4">Cars</span><span class="train-destination column-heading col-xs-4">Destination</span><span class="train-minutes column-heading col-xs-4">Minutes</span></li>
+          <% trains.forEach(function(train,i) {
+            if(!train.Car){
+              train.Car = '-';
+            } %>
+            <li class="train-item">
+              <span class="train-car col-xs-4"><%= train.Car %></span> <span class="train-destination col-xs-4"><%= train.DestinationName %></span> <span class="train-minutes col-xs-4"><%= train.Min %></span>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
     </script>
 
     <script type="text/template" id="alerts-view">
       <ul class="alerts-list">
         <% if(incidents){
           incidents.forEach(function(incident,i) { %>
-          <li class="alert-item">
-            <span class="alert-line <%= incident.IncidentType %>"><%= incident.LinesAffected %></span>
+          <li class="alert-item alert-item-<%= i %>" data-alert-type="<%= incident.IncidentType %>">
+            <!-- <span class="alert-line"><%= incident.LinesAffected %></span> -->
             <p class="alert-description"><%= incident.Description %></p>
-            <span class="alert-datetime"><%= incident.DateUpdated %></span>
+            <span class="alert-datetime"><b>Updated:</b> <%= incident.DateUpdated %></span>
           </li>
+          <br>
         <% });
         } %>
       </ul>
     </script>
 
+    <script type="text/template" id="template-routes-alerts-view">
+      <div class="routeAlerts">
+      <% if(incidents) { %>
+        <a class="clickable show-alerts">
+          <div class="alert-header bg-color-item" data-line-color="<%= incidents[0].LinesAffected %>">Alerts:</div>
+          <% incidents.forEach(function(alert,i){  %>
+              <div class="alert-item data-alert-type="<%= alert.IncidentType %>">
+                <p class="alert-description"><%= alert.Description %></p>
+                <span class="alert-datetime">Updated: <%= alert.DateUpdated %></span>
+              </div>
+        <%  });
+          } %>
+        </a>
+      </div>
+    </script>
+
     <script type="text/template" id="template-routesview">
       <div class="routes-view">
-        <div class="startingStation">
-          <span class="line-code-<%= startingStation.lineCode %>">Starting Station: <%= startingStation.name %> </span>
-        </div>
-        <div class="destinationStation">
-          <span class="line-code-<%= endingStation.lineCode %>">Destination Station: <%= endingStation.name %> </span>
-        </div>
-        <div class="routesDetails">
-          <span class="alarm">Alarm time: <%= alarm %></span>
-          <span class="frequency">Repeat: <%= frequency %></span>
+        <div class="routes-header">
+          <div class='current-time'><%= currentTime %></div>
+          <div class='train-icon' data-line-color="<%= startingStation.lineCode %>"></div>
+          <div class="route-details">
+            <div class="startingStation">
+              <span class="line-code-<%= startingStation.lineCode %>"><%= startingStation.name %></span>
+            </div>
+            <span class="to">to</span>
+            <div class="destinationStation">
+              <span class="line-code-<%= endingStation.lineCode %>"><%= endingStation.name %> </span>
+            </div>
+          </div>
+          <div class="routesDetails">
+            <span class="alarm"><b>Alarm time:</b> <%= alarm %></span>
+            <span class="frequency"><b>Repeat:</b> <%= frequency %></span>
+          </div>
         </div>
         <div class="time-table">
           <div class='time-header'>
@@ -163,7 +202,7 @@
                     lineColors.forEach(function(color,i) {
                       var colorWidth = 100/linesCount;
                       if(i == 0 && train.Line != '--'){ %>
-                        <div style="width: <%= colorWidth %>%;" class="inner-train line-color line-<%= i+1 %>" data-line-color="<%= train.Line %>"></div>
+                        <div style="width: <%= colorWidth %>%;" class="inner-train line-color bg-color-item line-<%= i+1 %>" data-line-color="<%= train.Line %>"></div>
                       <% } else { %>
                         <div style="width: <%= colorWidth %>%;" class="inner-train line-color line-<%= i+1 %>" data-line-color="<%= color %>"></div>
                       <% } %>
@@ -173,7 +212,7 @@
                     }); %>
                     <div class="line-label train-icon first"></div>
                     <span class="arrival-time"><%= train.arrivalTime %></span>
-                    <span class="train-time"><%= railTime %> min</span>
+                    <span class="train-time">Total transit: <%= railTime %> min</span>
                   </div>
                 <%
                 }

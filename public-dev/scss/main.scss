@@ -27,12 +27,14 @@ a {
 @-webkit-keyframes slide {
   100% {
     width: 100%;
+    left: 0;
     color: $dark_gray;
   }
 }
 
 @keyframes slide {
   100% {
+    left: 0;
     width: 100%;
     color: $dark_gray;
   }
@@ -101,6 +103,28 @@ a {
   }
 }
 
+.bg-color-item {
+  &[data-line-color="OR"] {
+    background-color: $metro_orange;
+  }
+  &[data-line-color="BL"] {
+    background-color: $metro_blue;
+  }
+  &[data-line-color="SV"] {
+    background-color: $metro_silver;
+  }
+  &[data-line-color="GR"] {
+    background-color: $metro_green;
+  }
+  &[data-line-color="RD"] {
+    background-color: $metro_red;
+  }
+  &[data-line-color="YL"] {
+    background-color: $metro_yellow;
+  }
+}
+
+
 .main-navigation {
   position: absolute;
   background: black;
@@ -112,6 +136,9 @@ a {
     color: $white;
     border-bottom: 1px solid $white;
     padding: 20px 0 5px 0;
+    .alert-icon {
+      background: url("/img/alert.png");
+    }
   }
 }
 
@@ -121,33 +148,53 @@ a {
   background: $white;
 }
 
+.routeAlerts {
+  position: absolute;
+  max-height: 75px;
+  bottom: 0px;
+  width: 100%;
+  overflow: scroll;
+  z-index: 10;
+  background: #e0e0e0;
+  .alert-item {
+    padding: 5px;
+  }
+  .alert-header {
+    font-weight: bold;
+    height: 30px;
+    text-align: center;
+    border-bottom: 1px solid $black;
+  }
+}
+
 // section-specific styles
 section.main-header {
   background-color: $black;
   color: $white;
-  min-height: 45px;
+  min-height: 53px;
   z-index: 100;
   a.header-item {
-    height: 30px;
-    width: 30%;
+    height: 40px;
     background-repeat: no-repeat;
     background-size: contain;
-    margin-top: 5px;
+    margin-top: 8px;
+    width: 33%;
     &.main-nav-button {
       float: left;
       background-image: url("/img/hamburger.png");
-      background-size: 25px;
-      background-position: 5px 5px;
+      background-size: 27px;
+      background-position: 17px 9px;
     }
     &.metro-logo {
       float: left;
       background-image: url("/img/metro-logo.png");
       background-position: 50%;
+      background-size: 25px;
     }
     &.home-logo {
       background-image: url("/img/home.png");
-      background-position: 98%;
-      background-size: 27px;
+      background-position: 85%;
+      background-size: 28px;
     }
   }
   .home-logo {
@@ -177,14 +224,15 @@ section.main-footer {
   max-width: 800px;
   z-index: 100;
   li.footer-item {
-    height: 40px;
+    height: 35px;
     width: 32%;
     display: inline-block;
     a {
       width: 100%;
       height: 35px;
       display: block;
-      background-size: contain;
+      // background-size: contain;
+      background-size: 30px;
       background-repeat: no-repeat;
       background-position: center;
       margin-top: 5px;
@@ -203,21 +251,26 @@ section.main-footer {
 
 // view-specific styles
 .lines-view {
+  margin-left: -10px;
+  width: 90%;
   ul.lines-list {
     li a {
-      width: 125px;
+      width: 0%;
+      position: relative;
       height: 40px;
       display: block;
       vertical-align: middle;
-      padding: 10px 0;
+      padding: 12px 0;
       padding-left: 20px;
       margin: 25px 0;
+      left: -10%;
       animation: slide 2s forwards;
       animation-delay: 1s;
-      font-size: 16px;
+      font-size: 12px;
       text-transform: uppercase;
       font-style: italic;
       font-weight: 600;
+      color: transparent;
       :hover {
         color: inherit;
       }
@@ -236,6 +289,12 @@ section.main-footer {
       &.metro-yellow {
         animation-delay: 2s;
       }
+      &.alert-icon {
+        background-image: url("/img/alert.png");
+        background-repeat: no-repeat;
+        background-position: 98%;
+        background-size: 30px;
+      }
     }
   }
 }
@@ -243,14 +302,76 @@ section.main-footer {
 .favorites-view {
   .favorites-item {
     width: 100%;
-    margin: 10px auto;
-    border-bottom: 1px solid $light_gray;
-    .fav-name {
-      font-size: 18px;
-      font-style: italic;
+    margin: 20px auto;
+    min-height: 175px;
+    .details-wrapper {
+      margin: 20px;
+      .fav-name {
+        font-size: 24px;
+      }
+      .fav-details {
+        width: 50%;
+        float: left;
+        font-size: 12px;
+        div {
+          margin: 5px 0;
+        }
+        span {
+          display: block;
+          width: 100%;
+        }
+        .span-text {
+          font-weight: bold;
+        }
+      }
+      .fav-metro-train {
+        width: 50%;
+        float: right;
+        font-size: 12px;
+        .train-icon {
+          background: url("/img/train-black.png");
+          height: 40px;
+          width: 40px;
+          background-size: contain;
+          background-repeat: no-repeat;
+        }
+        span {
+          display: block;
+          width: 100%;
+        }
+        .span-text {
+          font-weight: bold;
+        }
+        .fav-destination {
+          .right-black-arrow {
+            background: url("/img/right-black-arrow.png");
+            width: 100%;
+            height: 12px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 2px 0;
+          }
+        }
+      }
     }
     .lineColors {
       clear: both;
+      position: relative;
+      z-index: 1;
+      .line-color-gear {
+        background: url('/img/gear.png');
+        display: inline-block;
+        position: absolute;
+        width: 26px;
+        height: 35px;
+        z-index: 2;
+        left: -moz-calc(50% - 13px);
+        left: -webkit-calc(50% - 13px);
+        left: calc(50% - 13px);
+        background-size: 26px;
+        background-repeat: no-repeat;
+        background-position: 50%;
+      }
       .line-color {
         height: 35px;
         display: inline-block;
@@ -260,9 +381,35 @@ section.main-footer {
   }
 }
 
+.trains-status-view {
+  .trains-list {
+    .column-heading {
+      font-weight: bold;
+    }
+    .train-item {
+      clear: both;
+    }
+  }
+}
+
 .routes-view {
   width: 100%;
   overflow-x: scroll;
+  .routes-header {
+    div {
+      text-align: center;
+      &.current-time {
+        font-size: 22px;
+        font-weight: bold;
+      }
+    }
+    .route-details {
+      .to {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
   .time-table {
     min-height: 330px;
     width: 130%;
@@ -337,7 +484,7 @@ section.main-footer {
           &.train-icon {
             background-image: url("/img/train.svg");
             background-repeat: no-repeat;
-            background-size: 22px;
+            background-size: 18px;
             background-position: center;
           }
           &.transfer-station {

@@ -5,6 +5,8 @@ var FavoritesView = Backbone.View.extend({
   'template': _.template($('#favorites-view').html()),
   initialize: function(data) {
     this.collection = data.collection;
+    this.firstStationName = '';
+    this.secondStationName = '';
     this.render();
   },
   render: function(){
@@ -14,14 +16,30 @@ var FavoritesView = Backbone.View.extend({
       if(favorite.attributes.alarmTime){
         favorite.attributes.alarmTime = _this.returnFormattedDate(favorite.attributes.alarmTime);
       }
-      console.log('checking',favorite.attributes);
-      _this.$el.append(_this.template(favorite.attributes));
+
+      _this.getStationName(favorite.attributes.startingStation,function(data){
+        // console.log('here we go',data);
+        favorite.attributes.startingStationName = data.Name;
+        _this.getStationName(favorite.attributes.destinationStation,function(data){
+          // console.log('and into the second',data);
+          favorite.attributes.destinationStationName = data.Name;
+          _this.$el.append(_this.template(favorite.attributes));
+          var output = _this.$el;
+          $('.main-body').html('');
+          $('.main-body').append('<ul class="favorites-list favorites-view"></ul>');
+          $('.main-body ul.favorites-list').append(output);
+          _this.initClicks();
+        });
+      });
+
     });
-    var output = _this.$el;
-    $('.main-body').html('');
-    $('.main-body').append('<ul class="favorites-list favorites-view"></ul>');
-    $('.main-body ul.favorites-list').append(output);
-    _this.initClicks();
+    // var output = _this.$el;
+    // $('.main-body').html('');
+    // $('.main-body').append('<ul class="favorites-list favorites-view"></ul>');
+    // $('.main-body ul.favorites-list').append(output);
+    // console.log('before init');
+    // _this.initClicks();
+    // console.log('after init');
     return this;
   },
   returnFormattedDate: function(date) {
@@ -30,7 +48,7 @@ var FavoritesView = Backbone.View.extend({
   },
   initClicks: function(){
     var _this = this;
-    $('.fav-item.get-routes').on('click',function(){
+    $('.get-routes').on('click',function(){
       var frequency = $(this).attr('data-frequency');
       var starting = $(this).attr('data-starting');
       var ending = $(this).attr('data-ending');
@@ -39,5 +57,25 @@ var FavoritesView = Backbone.View.extend({
       var transferStation = $(this).attr('data-transfer');
       var routesView = new RoutesView(starting,ending,frequency,alarm,lineColors,transferStation);
     });
-  }
+  },
+  getStationName: function(stationCode, callback){
+    var params = {
+      "api_key": api_key,
+      "stationCode": stationCode
+    };
+    var fullUrl = 'https://api.wmata.com/Rail.svc/json/jStationInfo?' + $.param(params);
+    $.ajax({
+      url: fullUrl,
+      type: "GET",
+      crossDomain: true,
+      dataType: 'jsonp'
+    })
+    .done(function(data) {
+      callback(data);
+    })
+    .fail(function(error) {
+      console.log("error loading WMATA data",error);
+      return false;
+    });
+  },
 });

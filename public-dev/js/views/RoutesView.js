@@ -1,6 +1,7 @@
 var RoutesView = Backbone.View.extend({
   'className': 'routes-view',
   'template': _.template($('#template-routesview').html()),
+  'routesAlertsTemplate': _.template($('#template-routes-alerts-view').html()),
   'initialize': function(starting,ending,frequency,alarm,lineColors,transferStation) {
     this.starting = starting;
     this.ending = ending;
@@ -74,9 +75,9 @@ var RoutesView = Backbone.View.extend({
     } else if(method == 'period'){
       number = dateObj.getHours();
       if(number > 11){
-        number = 'pm';
+        number = 'PM';
       } else {
-        number = 'am';
+        number = 'AM';
       }
     }
     return number.toString();
@@ -115,6 +116,33 @@ var RoutesView = Backbone.View.extend({
     })
     .done(function(data) {
       _this.renderAllData(startingStationData,endingStationData,stationsData,data,_this);
+      var alertsStatus = new AlertsView(function(data){
+        data.Incidents.forEach(function(incident,i){
+          var lastCharCheck = data.Incidents[i].LinesAffected;
+          if (lastCharCheck.substring(lastCharCheck.length-1) == ";") {
+            lastCharCheck = lastCharCheck.substring(0, lastCharCheck.length-1);
+          }
+          data.Incidents[i].LinesAffected = lastCharCheck;
+          var dateUpdated = new Date(data.Incidents[i].DateUpdated);
+          data.Incidents[i].DateUpdated = dateUpdated.toLocaleTimeString();
+        });
+        $('.main-body').after(_this.routesAlertsTemplate({ 'incidents': data.Incidents }));
+        $('.routeAlerts').on('click',function(){
+          if($(this).hasClass('alive')){
+            $(this).animate({
+              bottom: "0px"
+            }, "slow");
+            $(this).removeClass('alive');
+          } else {
+            $(this).animate({
+              bottom: "50px"
+            }, "slow");
+            $(this).addClass('alive');
+          }
+          // console.log('we just got clicked son and',this);
+
+        });
+      });
     })
     .fail(function(error) {
       console.log("error loading WMATA data",error);
@@ -122,11 +150,7 @@ var RoutesView = Backbone.View.extend({
     });
   },
   renderAllData: function(startingStationData,endingStationData,stationsData,nextTrains,_this){
-    // console.log('finally in here with stationsData',stationsData[0].RailTime);
-    // console.log('and got next trains like:',nextTrains.Trains);
-    console.log('line colors like',_this.lineColors);
     var lineColors = _this.lineColors.split('_');
-    console.log('and after',lineColors);
     var dt = new Date();
     var currentTime = _this.returnTimeString(dt,'hours') + ":" + _this.returnTimeString(dt,'minutes') + ' ' + _this.returnTimeString(dt,'period');
     dt.setMinutes(dt.getMinutes() + 10);
@@ -143,7 +167,6 @@ var RoutesView = Backbone.View.extend({
           var arrival = originalDT.setMinutes(originalDT.getMinutes() + parseInt(train.Min));
           train.arrivalTime = _this.returnTimeString(originalDT,'hours') + ":" + _this.returnTimeString(originalDT,'minutes');
           trainsArray.push(train);
-          console.log('hi train',train);
         }
       });
 
@@ -167,7 +190,7 @@ var RoutesView = Backbone.View.extend({
         'fourthIncrement': fourthIncrement,
         'railTime': stationsData[0].RailTime,
         'trains': trainsArray,
-        'lineColors': lineColors,
+        'lineColors': lineColors
       };
       $('.main-body').html('');
       $('.main-body').append(_this.template(dataObj));

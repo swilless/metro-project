@@ -1,15 +1,16 @@
 var AlertsView = Backbone.View.extend({
   'className': 'alert-status',
   'template': _.template($('#alerts-view').html()),
-  initialize: function() {
+  initialize: function(callback) {
     this.stationCode = null;
     this.incidents = null;
-    this.render();
+    this.render(callback);
   },
-  render: function(){
-    var alerts = this.apiGetAlerts();
+  render: function(callback){
+    var alerts = this.apiGetAlerts(callback);
   },
-  apiGetAlerts: function(){
+  apiGetAlerts: function(callback){
+    var callbackExists = typeof callback  !== 'undefined' ? callback : false;
     var params = {
       "api_key": api_key,
     };
@@ -23,6 +24,11 @@ var AlertsView = Backbone.View.extend({
     })
     .done(function(data) {
       _this.incidents = data.Incidents;
+      if(callbackExists){
+        callback(data);
+      } else {
+        _this.displayAlerts();
+      }
       return data;
     })
     .fail(function() {
